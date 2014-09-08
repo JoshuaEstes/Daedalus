@@ -1,0 +1,13 @@
+daedalus:
+    tasks:
+        build:
+            - nameOfTask
+            - lint
+        chmod:
+            command: chmod
+            file: %project.basedir%/bin/daedalus
+            mode: +x
+        lint:
+            command: lint
+            directory: %project.basedir%/src/**
+

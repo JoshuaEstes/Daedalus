@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+// vim: set ft=php
+require __DIR__ . '/../vendor/autoload.php';
+
+use JoshuaEstes\Daedalus\Application;
+
+$app = new Application();
+$app->run();

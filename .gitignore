@@ -1,0 +1,4 @@
+/bin/**
+!/bin/daedalus
+/vendor/
+composer.lock
