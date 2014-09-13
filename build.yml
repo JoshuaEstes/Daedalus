@@ -1,8 +1,9 @@
 daedalus:
+    config:
+        cache_dir: build/cache
     tasks:
         build:
-            - nameOfTask
-            - lint
+            required: [clean,lint,chmod]
         chmod:
             command: chmod
             file: %project.basedir%/bin/daedalus
@@ -10,4 +11,13 @@ daedalus:
         lint:
             command: lint
             directory: %project.basedir%/src/**
-
+        clean:
+            command: clean
+            directory: %project.basedir%/build/
+        minify:
+            - command: concat
+              files: [test.js,more.js,again.js]
+              output: output.js
+            - command: minifyJS
+              input: output.js
+              output: output.min.js
