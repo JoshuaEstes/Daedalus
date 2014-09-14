@@ -2,7 +2,11 @@
 
 namespace JoshuaEstes\Daedalus\Loader;
 
-use JoshuaEstes\Daedalus\Command as Command;
+use JoshuaEstes\Daedalus\Command as DaedalusCommand;
+use JoshuaEstes\Daedalus\Task;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Config\Loader\FileLoader;
 use Symfony\Component\Yaml\Yaml;
 
@@ -17,6 +21,11 @@ class YamlLoader extends FileLoader
         $tasks        = array();
 
         foreach ($configValues['daedalus']['tasks'] as $task => $taskConfig) {
+            $cmd = new Command($task);
+            $cmd->setCode(function ($input, $output) {
+                $output->writeln('woot');
+            });
+            $tasks[] = $cmd;
         }
 
         return $tasks;

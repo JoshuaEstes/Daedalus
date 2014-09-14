@@ -34,4 +34,11 @@ class Task
     {
         $this->commands[$command->getName()] = $command;
     }
+
+    public function execute($input, $output)
+    {
+        foreach ($this->commands as $command) {
+            $command->run($input, $output);
+        }
+    }
 }

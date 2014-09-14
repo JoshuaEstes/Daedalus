@@ -44,5 +44,7 @@ class Application extends BaseApplication
         $commands         = $delegatingLoader->load(
             $input->getParameterOption('--buildfile', 'build.yml')
         );
+
+        $this->addCommands($commands);
     }
 }
