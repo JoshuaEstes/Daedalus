@@ -1,9 +1,5 @@
 <?php
 
-require __DIR__ . '/vendor/autoload.php';
-
-use JoshuaEstes\Daedalus\Task;
-
 $tasks = array();
 
 $tasks['build'] = array(

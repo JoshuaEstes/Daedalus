@@ -32,5 +32,8 @@
         "symfony/finder": "~2.3",
         "symfony/process": "~2.3",
         "symfony/yaml": "~2.3"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
     }
 }
