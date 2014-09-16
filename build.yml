@@ -1,23 +1,12 @@
 daedalus:
-    config:
-        cache_dir: build/cache
     tasks:
-        build:
-            required: [clean,lint,chmod]
-        chmod:
-            command: chmod
-            file: %project.basedir%/bin/daedalus
-            mode: +x
-        lint:
-            command: lint
-            directory: %project.basedir%/src/**
-        clean:
-            command: clean
-            directory: %project.basedir%/build/
-        minify:
-            - command: concat
-              files: [test.js,more.js,again.js]
-              output: output.js
-            - command: minifyJS
-              input: output.js
-              output: output.min.js
+        build: 
+            description: Creates distribution
+            commands:
+                 commandOne:
+                     command: chmod
+                     arguments:
+                        file: %project.basedir%/bin/daedalus
+                        mode: +x
+                 lint: { command: lint, arguments: {directory: %project.basedir%/src/**} }
+                 clean: { command: clean, arguments: {directory: %project.basedir%/build/} }
