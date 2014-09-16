@@ -27,6 +27,11 @@ class ChmodCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $output->writeln('CHMOD');
+        $output->writeln(
+            array(
+                $input->getArgument('mode'),
+                $input->getArgument('file'),
+            )
+        );
     }
 }

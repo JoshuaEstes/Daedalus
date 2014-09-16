@@ -4,7 +4,9 @@ namespace JoshuaEstes\Daedalus;
 
 use JoshuaEstes\Daedalus\Loader\YamlLoader;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Config\FileLocator;
@@ -40,40 +42,71 @@ class Application extends BaseApplication
             )
         );
 
-        $this->initializeContainer();
-        $this->add(new \JoshuaEstes\Daedalus\Command\DumpContainerCommand($this->container));
     }
 
     protected function initializeBuildFile(InputInterface $input, OutputInterface $output)
     {
-        $buildFile              = getcwd() . '/build.yml';
-        $configs                = Yaml::parse($buildFile);
-        $processor              = new Processor();
-        $configuration          = new Configuration();
-        $processedConfiguration = $processor->processConfiguration($configuration, $configs);
-        var_dump($processedConfiguration['tasks']['build']['commands']);
-        die();
-        // process build file
+        $config = $this->processBuildFile($this->getBuildFile($input));
+    }
 
-        return;
-        $locator        = new FileLocator(array(getcwd()));
-        $loaderResolver = new LoaderResolver(
-            array(
-                new YamlLoader($locator),
-            )
-        );
-        $delegatingLoader = new DelegatingLoader($loaderResolver);
-        $commands         = $delegatingLoader->load(
-            $input->getParameterOption('--buildfile', 'build.yml')
-        );
+    protected function processBuildFile($buildfile)
+    {
+        $processor = new Processor();
+        $config    = $processor->processConfiguration(new Configuration(), Yaml::parse($buildfile));
 
-        $this->addCommands($commands);
+        foreach ($config['tasks'] as $name => $taskConfig) {
+            $command = new Command($name);
+            $command->setDescription($taskConfig['description']);
+            $command->setCode(function ($input, $output) use ($taskConfig) {
+                foreach ($taskConfig['commands'] as $command => $commandConfig) {
+                    $cmdClass = '\JoshuaEstes\Daedalus\Command\\' . ucfirst($commandConfig['command']) . 'Command';
+                    if (!class_exists($cmdClass)) {
+                        $output->writeln(
+                            array(
+                                sprintf('<error>Could not find command "%s"</error>', $commandConfig['command']),
+                            )
+                        );
+                        continue;
+                    }
+                    $cmd = new $cmdClass();
+                    $cmd->run(new ArrayInput($commandConfig['arguments']), $output);
+                }
+            });
+            $this->add($command);
+        }
+
+        return $config;
+    }
+
+    /**
+     * Used to return the location of the build file
+     *
+     * @return string
+     * @throw Exception
+     */
+    protected function getBuildFile(InputInterface $input)
+    {
+        $buildfile = getcwd() . '/build.yml';
+
+        if (true === $input->hasParameterOption('--buildfile')) {
+            $buildfile = $input->getParameterOption('--buildfile');
+        }
+
+        if (is_file($buildfile) && is_readable($buildfile)) {
+            return $buildfile;
+        }
+
+        throw new \Exception(
+            sprintf('Could not find build file "%s"', $buildfile)
+        );
     }
 
     protected function configureIO(InputInterface $input, OutputInterface $output)
     {
         parent::configureIO($input, $output);
         $this->initializeBuildFile($input, $output);
+        $this->initializeContainer();
+        $this->add(new \JoshuaEstes\Daedalus\Command\DumpContainerCommand($this->container));
     }
 
     protected function initializeContainer()

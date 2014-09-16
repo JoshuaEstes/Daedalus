@@ -32,7 +32,7 @@ class Configuration implements ConfigurationInterface
             ->useAttributeAsKey('task')
             ->prototype('array')
                 ->children()
-                    ->scalarNode('description')->end()
+                    ->scalarNode('description')->defaultNull()->end()
                     ->append($this->addCommandsNode())
                 ->end()
             ->end();
