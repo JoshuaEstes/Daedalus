@@ -1,10 +1,11 @@
 joshuaestes/daedalus
 ====================
 
-As a developer I want a PHP task runner that is able to use yml, xml, or php
+[-] As a developer I want a PHP task runner that is able to use yml, xml, or php
 files to configure a list of commands that can be ran.
+* Able to use yml, also it should be trivial to add xml and php support
 
-As a developer I want the ability to group commands together as a task.
+[x] As a developer I want the ability to group commands together as a task.
 
 As a developer I want the ability to use a build properties files.
 
