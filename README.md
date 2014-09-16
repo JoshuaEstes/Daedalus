@@ -1,6 +1,8 @@
 joshuaestes/daedalus
 ====================
 
+[![Documentation Status](https://readthedocs.org/projects/daedalus/badge/?version=latest)](https://readthedocs.org/projects/daedalus/?badge=latest)
+
 [-] As a developer I want a PHP task runner that is able to use yml, xml, or php
 files to configure a list of commands that can be ran.
 * Able to use yml, also it should be trivial to add xml and php support
