@@ -78,7 +78,57 @@ As a developer I want the ability to run a command on a VM.
 As a developer I want the ability to create an archive file so that I can create
 releases.
 
+Installation
+============
+
+use composer
+
 Usage
 =====
 
   php bin/daedalus [task]
+
+Creating a build script
+=======================
+
+see build.yml
+
+Default Properties
+==================
+
+make table of properties
+
+Commands
+========
+
+Make list of commands here
+
+Request New Command
+===================
+
+@article
+
+Getting Help
+============
+
+php bin/daedalus help [command]
+
+How to Add Your Own Command
+===========================
+
+@tutorial
+
+Automate Builds With This Tool
+==============================
+
+@article
+
+Development/Hacking This Tool
+=============================
+
+@article
+
+License
+=======
+
+@license

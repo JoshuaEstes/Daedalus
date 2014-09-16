@@ -28,8 +28,14 @@ class Application extends BaseApplication
     const VERSION_MINOR = '1';
     const VERSION_PATCH = '0';
 
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
+    /**
+     * Creates a new instance of the app
+     */
     public function __construct()
     {
         parent::__construct('Daedalus', self::VERSION);
@@ -46,13 +52,24 @@ class Application extends BaseApplication
 
     }
 
+    /**
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     */
     protected function initializeBuildFile(InputInterface $input, OutputInterface $output)
     {
         $config = $this->processBuildFile($this->getBuildFile($input));
     }
 
+    /**
+     * Parses and processes a build file, adding new tasks that a developer
+     * is able to run
+     *
+     * @param string $buildfile
+     */
     protected function processBuildFile($buildfile)
     {
+        // @todo refactor so that the build file can be something other than a yaml
         $processor = new Processor();
         $config    = $processor->processConfiguration(new Configuration(), Yaml::parse($buildfile));
 
@@ -103,6 +120,11 @@ class Application extends BaseApplication
         );
     }
 
+    /**
+     * @inheritdoc
+     *
+     * Need to find a better way to hook into this
+     */
     protected function configureIO(InputInterface $input, OutputInterface $output)
     {
         parent::configureIO($input, $output);
@@ -111,12 +133,20 @@ class Application extends BaseApplication
         $this->add(new \JoshuaEstes\Daedalus\Command\DumpContainerCommand($this->container));
     }
 
+    /**
+     * Initialize the container and compile
+     */
     protected function initializeContainer()
     {
         $this->container = $this->buildContainer();
         $this->container->compile();
     }
 
+    /**
+     * Build the container and get it setup in a basic state
+     *
+     * @return ContainerBuilder
+     */
     protected function buildContainer()
     {
         $container = new ContainerBuilder(new ParameterBag($this->getContainerParameters()));
@@ -134,6 +164,10 @@ class Application extends BaseApplication
 
     /**
      * Default build parameters
+     *
+     * @todo Environmental variables
+     *
+     * @return array
      */
     protected function getContainerParameters()
     {
@@ -143,6 +177,8 @@ class Application extends BaseApplication
         );
     }
 
+    /**
+     */
     protected function getContainerLoader(ContainerInterface $container)
     {
         return new XmlFileLoader($container, new FileLocator(__DIR__ . '/Resources/config'));

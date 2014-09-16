@@ -8,10 +8,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 
 /**
+ * Command used to chmod a file/directory
  */
 class ChmodCommand extends Command
 {
 
+    /**
+     * @todo add help
+     */
     protected function configure()
     {
         $this
@@ -25,6 +29,9 @@ class ChmodCommand extends Command
             );
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $output->writeln(

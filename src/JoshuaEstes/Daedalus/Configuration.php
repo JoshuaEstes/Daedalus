@@ -10,6 +10,10 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
  */
 class Configuration implements ConfigurationInterface
 {
+
+    /**
+     * @inheritdoc
+     */
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
@@ -21,6 +25,11 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
+    /**
+     * Returns the tasks node
+     *
+     * @todo add ->info()
+     */
     protected function addTasksNode()
     {
         $builder = new TreeBuilder();
@@ -40,6 +49,11 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
+    /**
+     * Commands Node
+     *
+     * @todo add ->info()
+     */
     protected function addCommandsNode()
     {
         $builder = new TreeBuilder();
@@ -59,6 +73,11 @@ class Configuration implements ConfigurationInterface
         return $node;
     }
 
+    /**
+     * Arguments that are passed to a command
+     *
+     * @todo add ->info()
+     */
     protected function addArgumentsNode()
     {
         $builder = new TreeBuilder();

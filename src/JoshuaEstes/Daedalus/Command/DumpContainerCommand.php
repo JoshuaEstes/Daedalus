@@ -10,18 +10,31 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
+ * Command used to debug and find out information about the container object
+ * itself.
  */
 class DumpContainerCommand extends Command
 {
 
+    /**
+     * @var ContainerInterface
+     */
     protected $container;
 
+    /**
+     * @param ContainerInterface $container
+     */
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         parent::__construct();
     }
 
+    /**
+     * @inheritdoc
+     *
+     * @todo Add help
+     */
     protected function configure()
     {
         $this
@@ -29,6 +42,9 @@ class DumpContainerCommand extends Command
             ->setDescription('Dumps the container to display configuration information');
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $parameters = $this->container->getParameterBag()->all();
@@ -40,6 +56,12 @@ class DumpContainerCommand extends Command
         $this->renderServiceInformation($output);
     }
 
+    /**
+     * Renders a table that includes all parameters that a developer can use
+     * in a build file
+     *
+     * @param OutputInterface $output
+     */
     private function renderParameterInformation(OutputInterface $output)
     {
         $table = new Table($output);
@@ -50,6 +72,11 @@ class DumpContainerCommand extends Command
         $table->render();
     }
 
+    /**
+     * Renders a table that has all the services in the container
+     *
+     * @param OutputInterface $output
+     */
     private function renderServiceInformation(OutputInterface $output)
     {
         $table = new Table($output);
