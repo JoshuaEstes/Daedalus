@@ -10,11 +10,11 @@ Contents:
    :maxdepth: 2
 
     install
-    config
     buildfile
     properties
     usage
     tasks/index
     commands/index
+    config
     changelog
     license
