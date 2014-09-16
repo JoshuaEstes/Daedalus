@@ -7,7 +7,7 @@ Daedalus is a PHP build tool.
 Contents:
 
 .. toctree::
-   :maxdepth: 2
+    :maxdepth: 2
 
     install
     buildfile
