@@ -2,6 +2,8 @@
 Welcome to Daedalus's documentation!
 ====================================
 
+Daedalus is a PHP build tool.
+
 Contents:
 
 .. toctree::

@@ -1,14 +1,21 @@
 {
-    "name": "joshuaestes/daedalus",
+    "name": "daedalus/daedalus",
     "homepage": "https://github.com/JoshuaEstes/Daedalus",
     "description": "PHP Task runner",
+    "keywords": ["build tool"],
     "license": "MIT",
     "authors": [
         {
             "name": "Joshua Estes",
-            "email": "Joshua@Estes.in"
+            "email": "Joshua@Estes.in",
+            "homepage": "http://joshuaestes.me"
         }
     ],
+    "support": {
+        "issues": "https://github.com/JoshuaEstes/Daedalus/issues",
+        "wiki": "http://daedalus.readthedocs.org/",
+        "source": "https://github.com/JoshuaEstes/Daedalus"
+    },
     "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
@@ -35,5 +42,13 @@
     },
     "require-dev": {
         "phpunit/phpunit": "*"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "archive": {
+        "exclude": []
     }
 }
