@@ -19,6 +19,8 @@ use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\Definition\Processor;
 
+/**
+ */
 class Application extends BaseApplication
 {
     const VERSION       = '0.1.0';
@@ -37,8 +39,8 @@ class Application extends BaseApplication
          */
         $this->getDefinition()->addOptions(
             array(
-                new InputOption('buildfile', null, InputOption::VALUE_REQUIRED, 'build file', 'build.yml'),
-                new InputOption('propertyfile', null, InputOption::VALUE_REQUIRED, 'Properties file', 'build.properties'),
+                new InputOption('buildfile', null, InputOption::VALUE_REQUIRED, 'build file'),
+                new InputOption('propertyfile', null, InputOption::VALUE_REQUIRED, 'Properties file'),
             )
         );
 
