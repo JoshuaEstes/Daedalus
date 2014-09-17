@@ -10,7 +10,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 /**
  */
-class CopyCommand extends Command
+class DumpFileCommand extends Command
 {
 
     /**
@@ -18,13 +18,13 @@ class CopyCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('copy')
+            ->setName('dump_file')
             ->setDescription('')
             ->setDefinition(
                 array(
-                    new InputOption('src', null, InputOption::VALUE_REQUIRED, 'Source'),
-                    new InputOption('dest', null, InputOption::VALUE_REQUIRED, 'Destination'),
-                    new InputOption('overwrite', null, InputOption::VALUE_NONE, 'Overwrite if exists'),
+                    new InputOption('filename', null, InputOption::VALUE_REQUIRED, ''),
+                    new InputOption('content', null, InputOption::VALUE_REQUIRED, ''),
+                    new InputOption('mode', null, InputOption::VALUE_REQUIRED, '', 0666),
                 )
             );
     }
@@ -34,11 +34,11 @@ class CopyCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $source      = $input->getOption('src');
-        $destination = $input->getOption('dest');
-        $overwrite   = $input->getOption('overwrite');
-
-        $this->getFilesystem()->copy($source, $destination, $overwrite);
+        $this->getFilesystem()->dumpFile(
+            $input->getOption('filename'),
+            $input->getOption('content'),
+            $input->getOption('mode')
+        );
     }
 
     /**

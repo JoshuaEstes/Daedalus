@@ -25,10 +25,10 @@ Basic Example
     Arguments are based on the command that you choose to run. For a list of
     arguments for the command, please refer to the Commands section.
 
-The `<taskname>` can be replaced with any unique name that you choose. This
-will also be the task that you run from the command line ie `bin/daedalus <taskname`.
+The ``<taskname>`` can be replaced with any unique name that you choose. This
+will also be the task that you run from the command line ie ``bin/daedalus <taskname>``.
 
-The `<description>` is optional, but if you add one, it will be displayed when
+The ``<description>`` is optional, but if you add one, it will be displayed when
 the tasks are listed.
 
 You can have as many commands as you want and they will be ran in the order in

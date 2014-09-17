@@ -10,6 +10,9 @@ Commands
 
 Commands are ran inside of a task.
 
+chgrp
+=====
+
 chmod
 =====
 
@@ -41,3 +44,39 @@ Example Usage
                     arguments:
                         file: %user.home%/.daedalus/
                         mode: 0744
+
+chown
+=====
+
+copy
+====
+
+dump_file
+=========
+
+exec
+====
+
+lint
+====
+
+mirror
+======
+
+mkdir
+=====
+
+phar
+====
+
+remove
+======
+
+rename
+======
+
+symlink
+=======
+
+touch
+=====
