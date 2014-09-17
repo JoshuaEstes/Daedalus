@@ -20,4 +20,27 @@ Usage
 =====
 
 In your build file, put the property between a percentage sign. For example
-`%user.home`.
+``%user.home%``.
+
+Comments
+========
+
+Any line that starts with ``#`` is considered a comment.
+
+Environment Variables
+=====================
+
+
+Example Properties File
+=======================
+
+.. code-block:: text
+
+    # All properties files must have the extension .properties or they
+    # will not load.
+    # Empty lines and lines starting with "#" are not processed
+
+    property_name=property
+
+    # You can also use other properties
+    build_dir=%user.home%/build

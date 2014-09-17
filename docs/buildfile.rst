@@ -44,10 +44,11 @@ Complete Basic Example
             chmod:
                 description: Run chmod on a file
                 commands:
-                    command: chmod
-                    arguments:
-                        mode: 0755
-                        file: /path/to/file
+                    chmod:
+                        command: chmod
+                        arguments:
+                            mode: 0755
+                            file: /path/to/file
 
 Advanced Example
 ================
