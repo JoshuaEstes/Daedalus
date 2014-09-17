@@ -11,8 +11,8 @@ daedalus:
                         stub: path/to/stub.php
                         finder:
                             name: ['*.php', 'daedalus']
-                            in: '.'
-                            exclude: ['tests', 'vendor']
+                            in: ['src/', 'bin/']
+                            exclude: ['tests/', 'vendor/']
                 chmod:
                     command: chmod
                     arguments:
