@@ -10,12 +10,13 @@
         <import resource="commands.xml" />
     </imports>
 
-    <!--
-    <parameters>
-    </parameters>
-    -->
-
     <services>
         <service id="event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher" />
+
+        <service id="filesystem" class="Symfony\Component\Filesystem\Filesystem" />
+
+        <service id="finder" class="Symfony\Component\Finder\Finder" />
+
+        <service id="process_builder" class="Symfony\Component\Process\ProcessBuilder" />
     </services>
 </container>

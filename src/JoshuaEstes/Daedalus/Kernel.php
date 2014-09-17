@@ -116,17 +116,9 @@ class Kernel
         $container->addObjectResource($this);
         $container->set('application', $this->application);
         $container->addObjectResource($this->application);
-        $this->prepareContainer($container);
         $this->getContainerLoader($container)->load('services.xml');
 
         return $container;
-    }
-
-    /**
-     * @param ContainerBuilder $container
-     */
-    protected function prepareContainer(ContainerBuilder $container)
-    {
     }
 
     /**
@@ -157,9 +149,13 @@ class Kernel
      */
     protected function getContainerParameters()
     {
+        /**
+         * The constants described at http://us2.php.net/manual/en/reserved.constants.php
+         * might be useful to include here as well
+         */
         return array_merge(
             array(
-                'app.start_dir' => getcwd(),
+                'php.version' => PHP_VERSION,
             ),
             $this->getEnvironmentVariables()
         );
@@ -172,8 +168,35 @@ class Kernel
      */
     protected function getEnvironmentVariables()
     {
+        $env = array();
+
+        foreach ($_SERVER as $name => $val) {
+            if (is_array($val) || !in_array(strtolower($name), $this->getEnvironmentVariablesThatICareAbout())) {
+                // In the future, this could be supported
+                continue;
+            }
+
+            $env['env.'.$name] = $val;
+        }
+
+        return $env;
+    }
+
+    /**
+     * Injects only a few useful ones into the container
+     *
+     * @return array
+     */
+    protected function getEnvironmentVariablesThatICareAbout()
+    {
         return array(
-            'user.home' => getenv('HOME'),
+            'shell',
+            'tmpdir',
+            'user',
+            'pwd',
+            'lang',
+            'editor',
+            'home',
         );
     }
 
@@ -185,11 +208,10 @@ class Kernel
      */
     protected function getBuildFile()
     {
-        $input = $this->input;
         $buildfile = getcwd() . '/build.yml';
 
-        if (true === $input->hasParameterOption('--buildfile')) {
-            $buildfile = $input->getParameterOption('--buildfile');
+        if (true === $this->input->hasParameterOption('--buildfile')) {
+            $buildfile = $this->input->getParameterOption('--buildfile');
         }
 
         if (is_file($buildfile) && is_readable($buildfile)) {
@@ -202,6 +224,7 @@ class Kernel
     }
 
     /**
+     * Find and process build file
      */
     protected function initializeBuildFile()
     {
@@ -218,16 +241,18 @@ class Kernel
     {
         // @todo refactor so that the build file can be something other than a yaml
         // @todo verifiy that the parsed file returns an array
+        // @todo refactor this entire block
         $processor = new Processor();
+        $container = $this->getContainer();
         $config    = $processor->processConfiguration(new Configuration(), Yaml::parse($buildfile));
 
         foreach ($config['tasks'] as $name => $taskConfig) {
             $command = new Command($name);
             $command->setDescription($taskConfig['description']);
-            $command->setCode(function ($input, $output) use ($taskConfig) {
+            $command->setCode(function (InputInterface $input, OutputInterface $output) use ($taskConfig, $container) {
                 foreach ($taskConfig['commands'] as $command => $commandConfig) {
-                    $cmdClass = '\JoshuaEstes\Daedalus\Command\\' . ucfirst($commandConfig['command']) . 'Command';
-                    if (!class_exists($cmdClass)) {
+                    $serviceId = sprintf('command.%s', $commandConfig['command']);
+                    if (!$continer->has($serviceId)) {
                         $output->writeln(
                             array(
                                 sprintf('<error>Could not find command "%s"</error>', $commandConfig['command']),
@@ -235,21 +260,25 @@ class Kernel
                         );
                         continue;
                     }
-                    $cmd     = new $cmdClass();
+
+                    $cmd     = $container->get($serviceId);
                     $options = array();
+
                     foreach ($commandConfig['arguments'] as $opt => $value) {
                         $options['--'.$opt] = $value;
                     }
                     $cmd->run(new ArrayInput($options), $output);
                 }
             });
-            $this->application->add($command);
+
+            $container->get('application')->add($command);
         }
 
         return $config;
     }
 
     /**
+     * Find, load, parse, inject into container
      */
     protected function initializePropertiesFile()
     {

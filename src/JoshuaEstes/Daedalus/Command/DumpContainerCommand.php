@@ -47,10 +47,6 @@ class DumpContainerCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $parameters = $this->container->getParameterBag()->all();
-        $serviceIds = $this->container->getServiceIds();
-
-
         $this->renderParameterInformation($output);
         $output->writeln(array(''));
         $this->renderServiceInformation($output);
@@ -66,7 +62,11 @@ class DumpContainerCommand extends Command
     {
         $table = new Table($output);
         $table->setHeaders(array('Parameter Name', 'Parameter Value'));
-        foreach ($this->container->getParameterBag()->all() as $name => $value) {
+
+        $parameters = $this->container->getParameterBag()->all();
+        ksort($parameters);
+
+        foreach ($parameters as $name => $value) {
             $table->addRow(array($name, $value));
         }
         $table->render();
@@ -81,7 +81,11 @@ class DumpContainerCommand extends Command
     {
         $table = new Table($output);
         $table->setHeaders(array('Service ID', 'Class'));
-        foreach ($this->container->getServiceIds() as $id) {
+
+        $serviceIds = $this->container->getServiceIds();
+        sort($serviceIds);
+
+        foreach ($serviceIds as $id) {
             $service = $this->container->get($id);
             $table->addRow(array($id, get_class($service)));
         }
