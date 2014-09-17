@@ -4,6 +4,7 @@
 require __DIR__ . '/../vendor/autoload.php';
 
 use JoshuaEstes\Daedalus\Application;
+use JoshuaEstes\Daedalus\Kernel;
 
-$app = new Application();
+$app = new Application(new Kernel());
 $app->run();
