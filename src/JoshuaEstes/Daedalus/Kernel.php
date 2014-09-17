@@ -63,6 +63,8 @@ class Kernel
 
         $this->initializeContainer();
 
+        $this->application->setDispatcher($this->getContainer()->get('event_dispatcher'));
+
         $this->booted = true;
     }
 
@@ -78,6 +80,7 @@ class Kernel
 
         $this->container = null;
         $this->input     = null;
+        $this->output    = null;
     }
 
     /**
@@ -251,9 +254,5 @@ class Kernel
                 $this->getContainerLoader($this->container)->load($propertyfile);
             }
         }
-    }
-
-    protected function initializeDispatcher()
-    {
     }
 }

@@ -15,5 +15,7 @@
         <service id="command.chmod" class="JoshuaEstes\Daedalus\Command\ChmodCommand">
             <tag name="command" />
         </service>
+
+        <service id="event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher" />
     </services>
 </container>
