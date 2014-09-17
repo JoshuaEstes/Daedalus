@@ -1,14 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!--
-    This file will make more sense in later development
--->
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
-    <imports>
-        <import resource="commands.xml" />
-    </imports>
 
     <!--
     <parameters>
@@ -16,6 +9,12 @@
     -->
 
     <services>
-        <service id="event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher" />
+        <service id="command.chmod" class="JoshuaEstes\Daedalus\Command\ChmodCommand">
+            <tag name="command" />
+        </service>
+
+        <service id="command.phar" class="JoshuaEstes\Daedalus\Command\PharCommand">
+            <tag name="command" />
+        </service>
     </services>
 </container>
