@@ -142,7 +142,6 @@ class Kernel
         return array_merge(
             array(
                 'app.start_dir' => getcwd(),
-                'user.home'     => getenv('HOME'),
             ),
             $this->getEnvironmentVariables()
         );
@@ -155,7 +154,9 @@ class Kernel
      */
     protected function getEnvironmentVariables()
     {
-        return array();
+        return array(
+            'user.home' => getenv('HOME'),
+        );
     }
 
     /**
