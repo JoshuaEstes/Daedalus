@@ -234,8 +234,12 @@ class Kernel
                         );
                         continue;
                     }
-                    $cmd = new $cmdClass();
-                    $cmd->run(new ArrayInput($commandConfig['arguments']), $output);
+                    $cmd     = new $cmdClass();
+                    $options = array();
+                    foreach ($commandConfig['arguments'] as $opt => $value) {
+                        $options['--'.$opt] = $value;
+                    }
+                    $cmd->run(new ArrayInput($options), $output);
                 }
             });
             $this->application->add($command);

@@ -84,7 +84,7 @@ class Configuration implements ConfigurationInterface
         $node    = $builder->root('arguments');
 
         $node
-            ->prototype('scalar')
+            ->prototype('variable')
             ->end();
 
         return $node;

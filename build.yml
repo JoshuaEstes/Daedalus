@@ -3,10 +3,18 @@ daedalus:
         build: 
             description: Creates distribution
             commands:
-                 commandOne:
-                     command: chmod
-                     arguments:
-                        file: %project.basedir%/bin/daedalus
-                        mode: +x
-                 lint: { command: lint, arguments: {directory: %project.basedir%/src/**} }
-                 clean: { command: clean, arguments: {directory: %project.basedir%/build/} }
+                package:
+                    command: phar
+                    arguments:
+                        output: build/dist/daedalus.phar
+                        compression: none
+                        stub: path/to/stub.php
+                        finder:
+                            name: ['*.php', 'daedalus']
+                            in: '.'
+                            exclude: ['tests', 'vendor']
+                chmod:
+                    command: chmod
+                    arguments:
+                        file: bin/daedalus
+                        mode: 0755

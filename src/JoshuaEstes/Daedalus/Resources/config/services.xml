@@ -16,6 +16,10 @@
             <tag name="command" />
         </service>
 
+        <service id="command.phar" class="JoshuaEstes\Daedalus\Command\PharCommand">
+            <tag name="command" />
+        </service>
+
         <service id="event_dispatcher" class="Symfony\Component\EventDispatcher\EventDispatcher" />
     </services>
 </container>
