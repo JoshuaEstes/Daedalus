@@ -1,7 +1,23 @@
 daedalus:
     tasks:
+        phpunit:
+            description: Runs phpunit tests
+            commands:
+                phpunit:
+                    command: phpunit
+        lint:
+            description: Lint check all code
+            commands:
+                lint_check:
+                    command: lint
+        checkstyle:
+            description: Runs phpcs
+            commands:
+                phpcs:
+                    command: phpcs
         build: 
             description: Creates distribution
+            requires: [lint, phpunit, checkstyle]
             commands:
                 package:
                     command: phar

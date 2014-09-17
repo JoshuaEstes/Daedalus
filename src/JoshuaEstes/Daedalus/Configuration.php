@@ -27,8 +27,6 @@ class Configuration implements ConfigurationInterface
 
     /**
      * Returns the tasks node
-     *
-     * @todo add ->info()
      */
     protected function addTasksNode()
     {
@@ -42,6 +40,10 @@ class Configuration implements ConfigurationInterface
             ->prototype('array')
                 ->children()
                     ->scalarNode('description')->defaultNull()->end()
+                    ->arrayNode('requires')
+                        ->useAttributeAsKey('task')
+                        ->prototype('scalar')->end()
+                    ->end()
                     ->append($this->addCommandsNode())
                 ->end()
             ->end();
@@ -51,8 +53,6 @@ class Configuration implements ConfigurationInterface
 
     /**
      * Commands Node
-     *
-     * @todo add ->info()
      */
     protected function addCommandsNode()
     {
@@ -75,8 +75,6 @@ class Configuration implements ConfigurationInterface
 
     /**
      * Arguments that are passed to a command
-     *
-     * @todo add ->info()
      */
     protected function addArgumentsNode()
     {

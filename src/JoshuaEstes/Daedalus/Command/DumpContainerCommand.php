@@ -32,8 +32,6 @@ class DumpContainerCommand extends Command
 
     /**
      * @inheritdoc
-     *
-     * @todo Add help
      */
     protected function configure()
     {

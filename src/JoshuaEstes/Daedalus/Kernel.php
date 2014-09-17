@@ -252,7 +252,7 @@ class Kernel
             $command->setCode(function (InputInterface $input, OutputInterface $output) use ($taskConfig, $container) {
                 foreach ($taskConfig['commands'] as $command => $commandConfig) {
                     $serviceId = sprintf('command.%s', $commandConfig['command']);
-                    if (!$continer->has($serviceId)) {
+                    if (!$container->has($serviceId)) {
                         $output->writeln(
                             array(
                                 sprintf('<error>Could not find command "%s"</error>', $commandConfig['command']),
@@ -278,7 +278,7 @@ class Kernel
     }
 
     /**
-     * Find, load, parse, inject into container
+     * Find, load, parse, inject properties into container
      */
     protected function initializePropertiesFile()
     {
