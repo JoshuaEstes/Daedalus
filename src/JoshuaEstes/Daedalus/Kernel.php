@@ -2,7 +2,7 @@
 
 namespace JoshuaEstes\Daedalus;
 
-use JoshuaEstes\Daedalus\Loader\YamlLoader;
+use JoshuaEstes\Daedalus\Loader\PropertiesFileLoader;
 use JoshuaEstes\Daedalus\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
@@ -94,6 +94,7 @@ class Kernel
     protected function initializeContainer()
     {
         $this->container = $this->buildContainer();
+        $this->initializePropertiesFile();
         $this->initializeBuildFile();
         $this->container->compile();
         $this->application->add(new \JoshuaEstes\Daedalus\Command\DumpContainerCommand($this->container));
@@ -129,7 +130,20 @@ class Kernel
      */
     protected function getContainerLoader(ContainerInterface $container)
     {
-        return new XmlFileLoader($container, new FileLocator(__DIR__ . '/Resources/config'));
+        $locator = new FileLocator(
+            array(
+                __DIR__ . '/Resources/config',
+            )
+        );
+
+        $resolver = new LoaderResolver(
+            array(
+                new XmlFileLoader($container, $locator),
+                new PropertiesFileLoader($container, $locator),
+            )
+        );
+
+        return new DelegatingLoader($resolver);
     }
 
     /**
@@ -225,6 +239,16 @@ class Kernel
         }
 
         return $config;
+    }
+
+    protected function initializePropertiesFile()
+    {
+        if (true === $this->input->hasParameterOption('--propertyfile')) {
+            $propertyfile = realpath($this->input->getParameterOption('--propertyfile'));
+            if (false !== $propertyfile) {
+                $this->getContainerLoader($this->container)->load($propertyfile);
+            }
+        }
     }
 
     protected function initializeDispatcher()
