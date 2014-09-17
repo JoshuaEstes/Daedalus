@@ -241,6 +241,8 @@ class Kernel
         return $config;
     }
 
+    /**
+     */
     protected function initializePropertiesFile()
     {
         if (true === $this->input->hasParameterOption('--propertyfile')) {
