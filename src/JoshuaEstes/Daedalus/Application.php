@@ -7,6 +7,7 @@ use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\ListCommand;
 
 /**
  */
@@ -44,5 +45,12 @@ class Application extends BaseApplication
         $this->kernel->setInput($input);
         $this->kernel->setOutput($output);
         $this->kernel->boot($this);
+    }
+
+    protected function getDefaultCommands()
+    {
+        return array(
+            new ListCommand(),
+        );
     }
 }

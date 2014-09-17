@@ -101,6 +101,7 @@ class Kernel
         $this->initializeBuildFile();
         $this->container->compile();
         $this->application->add(new \JoshuaEstes\Daedalus\Command\DumpContainerCommand($this->container));
+        $this->application->add(new \JoshuaEstes\Daedalus\Command\HelpCommand($this->container));
     }
 
     /**

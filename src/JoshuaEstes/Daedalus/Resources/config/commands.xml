@@ -12,7 +12,9 @@
         <service id="command.chmod" class="JoshuaEstes\Daedalus\Command\ChmodCommand">
             <tag name="command" />
         </service>
-
+        <service id="command.chown" class="JoshuaEstes\Daedalus\Command\ChownCommand">
+            <tag name="command" />
+        </service>
         <service id="command.phar" class="JoshuaEstes\Daedalus\Command\PharCommand">
             <tag name="command" />
         </service>
