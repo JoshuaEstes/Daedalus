@@ -1,6 +1,6 @@
 <?php
 
-namespace JoshuaEstes\Daedalus\Loader;
+namespace Daedalus\Loader;
 
 use Symfony\Component\DependencyInjection\Loader\FileLoader;
 use Symfony\Component\Config\Resource\FileResource;

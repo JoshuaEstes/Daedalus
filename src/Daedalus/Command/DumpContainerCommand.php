@@ -1,6 +1,6 @@
 <?php
 
-namespace JoshuaEstes\Daedalus\Command;
+namespace Daedalus\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;

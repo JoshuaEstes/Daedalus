@@ -4,64 +4,64 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <services>
-        <service id="command.chgrp" class="JoshuaEstes\Daedalus\Command\ChgrpCommand">
+        <service id="command.chgrp" class="Daedalus\Command\ChgrpCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.chmod" class="JoshuaEstes\Daedalus\Command\ChmodCommand">
+        <service id="command.chmod" class="Daedalus\Command\ChmodCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.chown" class="JoshuaEstes\Daedalus\Command\ChownCommand">
+        <service id="command.chown" class="Daedalus\Command\ChownCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.copy" class="JoshuaEstes\Daedalus\Command\CopyCommand">
+        <service id="command.copy" class="Daedalus\Command\CopyCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.dump_file" class="JoshuaEstes\Daedalus\Command\DumpFileCommand">
+        <service id="command.dump_file" class="Daedalus\Command\DumpFileCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.exec" class="JoshuaEstes\Daedalus\Command\ExecCommand">
+        <service id="command.exec" class="Daedalus\Command\ExecCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.help" class="JoshuaEstes\Daedalus\Command\HelpCommand">
+        <service id="command.help" class="Daedalus\Command\HelpCommand">
             <argument type="service" id="service_container" />
             <tag name="command" />
         </service>
 
-        <service id="command.lint" class="JoshuaEstes\Daedalus\Command\LintCommand">
+        <service id="command.lint" class="Daedalus\Command\LintCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.mirror" class="JoshuaEstes\Daedalus\Command\MirrorCommand">
+        <service id="command.mirror" class="Daedalus\Command\MirrorCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.mkdir" class="JoshuaEstes\Daedalus\Command\MkdirCommand">
+        <service id="command.mkdir" class="Daedalus\Command\MkdirCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.phar" class="JoshuaEstes\Daedalus\Command\PharCommand">
+        <service id="command.phar" class="Daedalus\Command\PharCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.remove" class="JoshuaEstes\Daedalus\Command\RemoveCommand">
+        <service id="command.remove" class="Daedalus\Command\RemoveCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.rename" class="JoshuaEstes\Daedalus\Command\RenameCommand">
+        <service id="command.rename" class="Daedalus\Command\RenameCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.symlink" class="JoshuaEstes\Daedalus\Command\SymlinkCommand">
+        <service id="command.symlink" class="Daedalus\Command\SymlinkCommand">
             <tag name="command" />
         </service>
 
-        <service id="command.touch" class="JoshuaEstes\Daedalus\Command\TouchCommand">
+        <service id="command.touch" class="Daedalus\Command\TouchCommand">
             <tag name="command" />
         </service>
     </services>

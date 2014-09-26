@@ -1,8 +1,8 @@
 <?php
 
-namespace JoshuaEstes\Daedalus;
+namespace Daedalus;
 
-use JoshuaEstes\Daedalus\Kernel;
+use Daedalus\Kernel;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;

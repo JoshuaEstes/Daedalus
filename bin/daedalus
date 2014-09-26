@@ -3,8 +3,8 @@
 // vim: set ft=php
 require __DIR__ . '/../vendor/autoload.php';
 
-use JoshuaEstes\Daedalus\Application;
-use JoshuaEstes\Daedalus\Kernel;
+use Daedalus\Application;
+use Daedalus\Kernel;
 
 $app = new Application(new Kernel());
 $app->run();

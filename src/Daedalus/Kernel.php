@@ -1,9 +1,9 @@
 <?php
 
-namespace JoshuaEstes\Daedalus;
+namespace Daedalus;
 
-use JoshuaEstes\Daedalus\Loader\PropertiesFileLoader;
-use JoshuaEstes\Daedalus\Application;
+use Daedalus\Loader\PropertiesFileLoader;
+use Daedalus\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
@@ -100,8 +100,8 @@ class Kernel
         $this->initializePropertiesFile();
         $this->initializeBuildFile();
         $this->container->compile();
-        $this->application->add(new \JoshuaEstes\Daedalus\Command\DumpContainerCommand($this->container));
-        $this->application->add(new \JoshuaEstes\Daedalus\Command\HelpCommand($this->container));
+        $this->application->add(new \Daedalus\Command\DumpContainerCommand($this->container));
+        $this->application->add(new \Daedalus\Command\HelpCommand($this->container));
     }
 
     /**
