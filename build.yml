@@ -5,6 +5,8 @@ daedalus:
             commands:
                 phpunit:
                     command: phpunit
+                    options:
+                        configuration: 'build/'
         lint:
             description: Lint check all code
             commands:

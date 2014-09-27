@@ -36,10 +36,6 @@
             <tag name="command" />
         </service>
 
-        <service id="command.phplint" class="Daedalus\Command\PhpLintCommand">
-            <tag name="command" />
-        </service>
-
         <service id="command.mirror" class="Daedalus\Command\MirrorCommand">
             <tag name="command" />
         </service>
@@ -53,6 +49,14 @@
         </service>
 
         <service id="command.phpcs" class="Daedalus\Command\PhpcsCommand">
+            <tag name="command" />
+        </service>
+
+        <service id="command.phplint" class="Daedalus\Command\PhpLintCommand">
+            <tag name="command" />
+        </service>
+
+        <service id="command.phpunit" class="Daedalus\Command\PhpunitCommand">
             <tag name="command" />
         </service>
 
