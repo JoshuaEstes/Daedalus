@@ -162,8 +162,12 @@ class YamlBuildFileLoader extends FileLoader
                 }
 
                 $output->writeln('Running Command '.$service->getName());
-                $service->run(new ArrayInput($serviceConfig), $output);
+                $code = $service->run(new ArrayInput($serviceConfig), $output);
                 $output->writeln('Command '.$service->getName().' Complete');
+
+                if (0 !== $code) {
+                    $output->writeln('Command FAIL');
+                }
             }
         });
 

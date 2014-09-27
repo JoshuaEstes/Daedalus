@@ -38,8 +38,11 @@ class PhpunitCommand extends Command
                 $input->getOption('configuration')
             )
         );
+
         $process->run(function ($type, $buffer) use ($output) {
             $output->writeln($buffer);
         });
+
+        return $process->isSuccessful();
     }
 }

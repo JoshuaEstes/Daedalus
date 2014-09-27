@@ -34,6 +34,7 @@ class PhpcsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $code = 0;
         $source = $input->getArgument('source');
 
         if (!is_array($source)) {
@@ -52,7 +53,11 @@ class PhpcsCommand extends Command
             $process->run(function ($type, $buffer) use ($output) {
                 $output->writeln($buffer);
             });
+            if (!$process->isSuccessful()) {
+                $code = 1;
+            }
         }
 
+        return $code;
     }
 }
