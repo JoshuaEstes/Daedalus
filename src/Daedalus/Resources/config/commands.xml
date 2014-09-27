@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--
+    These are the commands available to use when running a build.
+-->
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
@@ -46,6 +49,10 @@
         </service>
 
         <service id="command.phar" class="Daedalus\Command\PharCommand">
+            <tag name="command" />
+        </service>
+
+        <service id="command.phpcs" class="Daedalus\Command\PhpcsCommand">
             <tag name="command" />
         </service>
 

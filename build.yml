@@ -17,7 +17,12 @@ daedalus:
             commands:
                 phpcs:
                     command: phpcs
-        build: 
+                    arguments:
+                        source: 'src/'
+                    options:
+                        report: full
+                        standard: PSR1,PSR2
+        build:
             description: Creates distribution
             requires: [lint, phpunit, checkstyle]
             commands:
