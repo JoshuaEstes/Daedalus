@@ -12,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class SymlinkCommand extends Command
 {
-
     /**
      */
     protected function configure()

@@ -12,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class CopyCommand extends Command
 {
-
     /**
      */
     protected function configure()

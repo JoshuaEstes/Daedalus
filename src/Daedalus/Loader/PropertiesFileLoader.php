@@ -3,11 +3,9 @@
 namespace Daedalus\Loader;
 
 use Symfony\Component\DependencyInjection\Loader\FileLoader;
-use Symfony\Component\Config\Resource\FileResource;
 
 class PropertiesFileLoader extends FileLoader
 {
-
     /**
      * @inheritdoc
      */

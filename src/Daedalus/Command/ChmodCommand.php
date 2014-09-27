@@ -13,7 +13,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ChmodCommand extends Command
 {
-
     /**
      */
     protected function configure()

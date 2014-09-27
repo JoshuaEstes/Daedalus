@@ -12,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class RemoveCommand extends Command
 {
-
     /**
      */
     protected function configure()

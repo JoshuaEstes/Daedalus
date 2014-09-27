@@ -12,7 +12,6 @@ use Symfony\Component\Finder\Finder;
  */
 class PharCommand extends Command
 {
-
     /**
      */
     protected function configure()

@@ -12,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class ChownCommand extends Command
 {
-
     /**
      */
     protected function configure()

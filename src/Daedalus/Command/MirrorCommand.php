@@ -12,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class MirrorCommand extends Command
 {
-
     /**
      */
     protected function configure()

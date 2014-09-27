@@ -12,7 +12,6 @@ use Symfony\Component\Filesystem\Filesystem;
  */
 class DumpFileCommand extends Command
 {
-
     /**
      */
     protected function configure()

@@ -4,22 +4,14 @@ namespace Daedalus;
 
 use Daedalus\Loader\PropertiesFileLoader;
 use Daedalus\Loader\YamlBuildFileLoader;
-use Daedalus\Application;
-use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\Yaml\Yaml;
 
 /**
  */
@@ -108,7 +100,7 @@ class Kernel
     {
         $locator = new FileLocator(
             array(
-                __DIR__ . '/Resources/config',
+                __DIR__.'/Resources/config',
             )
         );
 
@@ -189,7 +181,7 @@ class Kernel
      */
     protected function getBuildFile()
     {
-        $buildfile = getcwd() . '/build.yml';
+        $buildfile = getcwd().'/build.yml';
 
         if (true === $this->input->hasParameterOption('--buildfile')) {
             $buildfile = realpath($this->input->getParameterOption('--buildfile'));
@@ -211,7 +203,7 @@ class Kernel
      */
     protected function getPropertiesFile()
     {
-        $propertyfile = getcwd() . '/build.properties';
+        $propertyfile = getcwd().'/build.properties';
 
         if (true === $this->input->hasParameterOption('--propertyfile')) {
             $propertyfile = realpath($this->input->getParameterOption('--propertyfile'));

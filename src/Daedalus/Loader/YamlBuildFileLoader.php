@@ -18,7 +18,6 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class YamlBuildFileLoader extends FileLoader
 {
-
     /**
      * @inheritdoc
      */
@@ -64,7 +63,7 @@ class YamlBuildFileLoader extends FileLoader
     }
 
     /**
-     * @param string $path
+     * @param  string $path
      * @return array
      */
     protected function loadFile($path)
@@ -73,8 +72,8 @@ class YamlBuildFileLoader extends FileLoader
     }
 
     /**
-     * @param string $content
-     * @param string $file
+     * @param  string $content
+     * @param  string $file
      * @return array
      */
     protected function validate($content, $file)
@@ -140,7 +139,7 @@ class YamlBuildFileLoader extends FileLoader
         $command->setDescription($config['description']);
         $command->setCode(function (InputInterface $input, OutputInterface $output) use ($config, $container) {
             foreach ($config['commands'] as $cmd => $cmdConfig) {
-                $output->writeln('Starting ' . $cmd);
+                $output->writeln('Starting '.$cmd);
                 $serviceId = sprintf('command.%s', $cmdConfig['command']);
                 if (!$container->has($serviceId)) {
                     $output->writeln('Command not found');
@@ -155,12 +154,12 @@ class YamlBuildFileLoader extends FileLoader
                 }
 
                 foreach ($cmdConfig['options'] as $opt => $value) {
-                    $serviceConfig['--' . $opt] = $value;
+                    $serviceConfig['--'.$opt] = $value;
                 }
 
-                $output->writeln('Running Command ' . $service->getName());
+                $output->writeln('Running Command '.$service->getName());
                 $service->run(new ArrayInput($serviceConfig), $output);
-                $output->writeln('Command ' . $service->getName() . ' Complete');
+                $output->writeln('Command '.$service->getName().' Complete');
             }
         });
 
