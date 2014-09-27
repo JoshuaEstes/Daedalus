@@ -98,7 +98,7 @@ class Kernel
             $this->getContainerLoader($container)->load($file, self::TYPE_PROPERTIES_FILE);
         }
 
-        $container->addCompilerPass(new \Daedalus\Compiler\TaskCompilerPass());
+        //$container->addCompilerPass(new \Daedalus\Compiler\TaskCompilerPass());
 
         return $container;
     }
