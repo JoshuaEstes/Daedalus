@@ -41,6 +41,7 @@ class MkdirCommand extends Command
         $mode        = $input->getOption('mode');
         $directories = $input->getOption('directory');
         $filesystem  = $this->getFilesystem();
+
         if (!is_array($directories)) {
             $directories = array($directories);
         }
@@ -49,7 +50,8 @@ class MkdirCommand extends Command
             $output->writeln(
                 sprintf('mkdir %s with mode %s', $dir, decoct($mode))
             );
-            $fs->mkdir($dir, $mode);
+
+            $filesystem->mkdir($dir, $mode);
         }
     }
 
