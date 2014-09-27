@@ -39,6 +39,7 @@
         "symfony/yaml": "~2.3"
     },
     "require-dev": {
+        "satooshi/php-coveralls": "*",
         "phpunit/phpunit": "*"
     },
     "extra": {

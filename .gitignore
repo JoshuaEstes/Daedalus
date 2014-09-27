@@ -1,6 +1,7 @@
 /bin/**
 !/bin/daedalus
 /build/docs/code-coverage/
+/build/logs/clover.xml
 /docs/_build/
 /vendor/
 composer.lock
