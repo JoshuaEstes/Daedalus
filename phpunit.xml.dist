@@ -9,11 +9,11 @@
         </testsuite>
     </testsuites>
 
-    <filters>
+    <filter>
         <whitelist>
             <directory>src/</directory>
         </whitelist>
-    </filters>
+    </filter>
 
     <logging>
         <log type="coverage-html" target="build/docs/code-coverage" />

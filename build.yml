@@ -6,7 +6,7 @@ daedalus:
                 phpunit:
                     command: phpunit
                     options:
-                        configuration: 'build/'
+                        configuration: './phpunit.xml.dist'
         lint:
             description: Lint check all code
             commands:
