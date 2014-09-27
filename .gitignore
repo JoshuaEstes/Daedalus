@@ -1,4 +1,5 @@
 /bin/**
 !/bin/daedalus
+/docs/_build/
 /vendor/
 composer.lock
