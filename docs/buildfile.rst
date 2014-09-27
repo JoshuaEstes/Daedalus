@@ -19,6 +19,8 @@ Basic Example
                         command: <command name>
                         arguments:
                             <argument>: <argument value>
+                        options:
+                            <option>: <option value>
 
 .. note::
 
