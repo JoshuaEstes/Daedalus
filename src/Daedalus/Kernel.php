@@ -100,7 +100,8 @@ class Kernel
     {
         $locator = new FileLocator(
             array(
-                __DIR__.'/Resources/config',
+                __DIR__ . '/Resources/config',
+                getcwd(),
             )
         );
 
@@ -211,6 +212,15 @@ class Kernel
 
         if (is_file($propertyfile) && is_readable($propertyfile)) {
             return $propertyfile;
+        }
+
+        if (true === $this->input->hasParameterOption('--propertyfile')) {
+            throw new \Exception(
+                sprintf(
+                    'Could not find properties file "%s"',
+                    $this->input->getParameterOption('--propertyfile')
+                )
+            );
         }
 
         return false;

@@ -137,13 +137,26 @@ class YamlBuildFileLoader extends FileLoader
         $container = $this->container;
         $command   = new Command($name);
         $command->setDescription($config['description']);
-        $command->setCode(function (InputInterface $input, OutputInterface $output) use ($config, $container) {
+        $command->setCode(function (InputInterface $input, OutputInterface $output) use ($name, $config, $container) {
+            $output->writeln(
+                sprintf('<info>Running "<comment>%s</comment>" task</info>', $name)
+            );
+            $successful = 0;
             foreach ($config['requires'] as $task) {
+                $output->writeln(
+                    sprintf('<info>Running the required task "<comment>%s</comment>"</info>', $task)
+                );
                 $service = $container->get(sprintf('task.'.$task));
-                $service->run($input, $output);
+                $code = $service->run($input, $output);
+                if (0 !== $code) {
+                    $successful = -1;
+                }
             }
+
             foreach ($config['commands'] as $cmd => $cmdConfig) {
-                $output->writeln('Starting '.$cmd);
+                $output->writeln(
+                    sprintf('<info>Starting "<comment>%s</comment>" command.</info>', $cmd)
+                );
                 $serviceId = sprintf('command.%s', $cmdConfig['command']);
                 if (!$container->has($serviceId)) {
                     $output->writeln('Command not found');
@@ -166,9 +179,16 @@ class YamlBuildFileLoader extends FileLoader
                 $output->writeln('Command '.$service->getName().' Complete');
 
                 if (0 !== $code) {
-                    $output->writeln('Command FAIL');
+                    $successful = -1;
+                    $output->writeln('<error>Command FAIL</error>');
                 }
             }
+
+            if (-1 === $successful) {
+                $output->writeln('<error>Build FAILED</error>');
+            }
+
+            return $successful;
         });
 
         return $command;
