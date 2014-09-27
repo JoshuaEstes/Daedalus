@@ -21,7 +21,7 @@ daedalus:
             commands:
                 package:
                     command: phar
-                    arguments:
+                    options:
                         output: build/dist/daedalus.phar
                         compression: none
                         stub: path/to/stub.php
@@ -31,6 +31,6 @@ daedalus:
                             exclude: ['tests/', 'vendor/']
                 chmod:
                     command: chmod
-                    arguments:
+                    options:
                         file: bin/daedalus
                         mode: 0755

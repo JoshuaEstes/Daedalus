@@ -3,28 +3,35 @@
 namespace Daedalus;
 
 use Daedalus\Loader\PropertiesFileLoader;
+use Daedalus\Loader\YamlBuildFileLoader;
 use Daedalus\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Yaml\Yaml;
-use Symfony\Component\Config\Definition\Processor;
 
+/**
+ */
 class Kernel
 {
     const VERSION       = '1.0.0';
     const VERSION_MAJOR = '1';
     const VERSION_MINOR = '0';
     const VERSION_PATCH = '0';
+
+    const TYPE_BUILD_FILE      = 'build';
+    const TYPE_PROPERTIES_FILE = 'properties';
 
     protected $booted = false;
     protected $container;
@@ -33,54 +40,20 @@ class Kernel
     protected $output;
 
     /**
-     * @param InputInterface $input
-     */
-    public function setInput(InputInterface $input)
-    {
-        $this->input = $input;
-    }
-
-    /**
-     * @param OutputInterface $output
-     */
-    public function setOutput(OutputInterface $output)
-    {
-        $this->output = $output;
-    }
-
-    /**
      * Boots kernel by setting up the container
-     *
-     * @param Application $application
      */
-    public function boot(Application $application)
+    public function boot(Application $application, InputInterface $input, $output)
     {
         if (true === $this->booted) {
             return;
         }
 
         $this->application = $application;
+        $this->input       = $input;
+        $this->output      = $output;
 
         $this->initializeContainer();
-
-        $this->application->setDispatcher($this->getContainer()->get('event_dispatcher'));
-
         $this->booted = true;
-    }
-
-    /**
-     */
-    public function shutdown()
-    {
-        if (false === $this->booted) {
-            return;
-        }
-
-        $this->booted = false;
-
-        $this->container = null;
-        $this->input     = null;
-        $this->output    = null;
     }
 
     /**
@@ -97,11 +70,11 @@ class Kernel
     protected function initializeContainer()
     {
         $this->container = $this->buildContainer();
-        $this->initializePropertiesFile();
-        $this->initializeBuildFile();
+
+        // Load all the default services
+        $this->getContainerLoader($this->container)->load('services.xml');
+
         $this->container->compile();
-        $this->application->add(new \Daedalus\Command\DumpContainerCommand($this->container));
-        $this->application->add(new \Daedalus\Command\HelpCommand($this->container));
     }
 
     /**
@@ -112,11 +85,20 @@ class Kernel
     protected function buildContainer()
     {
         $container = new ContainerBuilder(new ParameterBag($this->getContainerParameters()));
+        $container->setResourceTracking(true);
         $container->set('kernel', $this);
-        $container->addObjectResource($this);
         $container->set('application', $this->application);
-        $container->addObjectResource($this->application);
-        $this->getContainerLoader($container)->load('services.xml');
+
+        // Load the build file
+        $this->getContainerLoader($container)->load($this->getBuildFile(), self::TYPE_BUILD_FILE);
+
+        // Load the properties file
+        $file = $this->getPropertiesFile();
+        if ($file) {
+            $this->getContainerLoader($container)->load($file, self::TYPE_PROPERTIES_FILE);
+        }
+
+        $container->addCompilerPass(new \Daedalus\Compiler\TaskCompilerPass());
 
         return $container;
     }
@@ -136,6 +118,7 @@ class Kernel
             array(
                 new XmlFileLoader($container, $locator),
                 new PropertiesFileLoader($container, $locator),
+                new YamlBuildFileLoader($container, $locator),
             )
         );
 
@@ -211,7 +194,7 @@ class Kernel
         $buildfile = getcwd() . '/build.yml';
 
         if (true === $this->input->hasParameterOption('--buildfile')) {
-            $buildfile = $this->input->getParameterOption('--buildfile');
+            $buildfile = realpath($this->input->getParameterOption('--buildfile'));
         }
 
         if (is_file($buildfile) && is_readable($buildfile)) {
@@ -224,69 +207,22 @@ class Kernel
     }
 
     /**
-     * Find and process build file
-     */
-    protected function initializeBuildFile()
-    {
-        $this->processBuildFile($this->getBuildFile());
-    }
-
-    /**
-     * Parses and processes a build file, adding new tasks that a developer
-     * is able to run
+     * Finds and returns the file set as the build.properties file.
      *
-     * @param string $buildfile
+     * @return string|false
      */
-    protected function processBuildFile($buildfile)
+    protected function getPropertiesFile()
     {
-        // @todo refactor so that the build file can be something other than a yaml
-        // @todo verifiy that the parsed file returns an array
-        // @todo refactor this entire block
-        $processor = new Processor();
-        $container = $this->getContainer();
-        $config    = $processor->processConfiguration(new Configuration(), Yaml::parse($buildfile));
+        $propertyfile = getcwd() . '/build.properties';
 
-        foreach ($config['tasks'] as $name => $taskConfig) {
-            $command = new Command($name);
-            $command->setDescription($taskConfig['description']);
-            $command->setCode(function (InputInterface $input, OutputInterface $output) use ($taskConfig, $container) {
-                foreach ($taskConfig['commands'] as $command => $commandConfig) {
-                    $serviceId = sprintf('command.%s', $commandConfig['command']);
-                    if (!$container->has($serviceId)) {
-                        $output->writeln(
-                            array(
-                                sprintf('<error>Could not find command "%s"</error>', $commandConfig['command']),
-                            )
-                        );
-                        continue;
-                    }
-
-                    $cmd     = $container->get($serviceId);
-                    $options = array();
-
-                    foreach ($commandConfig['arguments'] as $opt => $value) {
-                        $options['--'.$opt] = $value;
-                    }
-                    $cmd->run(new ArrayInput($options), $output);
-                }
-            });
-
-            $container->get('application')->add($command);
-        }
-
-        return $config;
-    }
-
-    /**
-     * Find, load, parse, inject properties into container
-     */
-    protected function initializePropertiesFile()
-    {
         if (true === $this->input->hasParameterOption('--propertyfile')) {
             $propertyfile = realpath($this->input->getParameterOption('--propertyfile'));
-            if (false !== $propertyfile) {
-                $this->getContainerLoader($this->container)->load($propertyfile);
-            }
         }
+
+        if (is_file($propertyfile) && is_readable($propertyfile)) {
+            return $propertyfile;
+        }
+
+        return false;
     }
 }

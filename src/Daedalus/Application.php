@@ -13,15 +13,16 @@ use Symfony\Component\Console\Command\ListCommand;
  */
 class Application extends BaseApplication
 {
-    protected $kernel;
+    private $kernel;
+    private $commandsRegistered = false;
 
     /**
      * Creates a new instance of the app
      */
     public function __construct(Kernel $kernel)
     {
-        parent::__construct('Daedalus', Kernel::VERSION);
         $this->kernel = $kernel;
+        parent::__construct('Daedalus', Kernel::VERSION);
 
         /**
          * Update definition with new options
@@ -36,21 +37,39 @@ class Application extends BaseApplication
 
     /**
      * @inheritdoc
-     *
-     * Need to find a better way to hook into this
      */
-    protected function configureIO(InputInterface $input, OutputInterface $output)
+    public function doRun(InputInterface $input, OutputInterface $output)
     {
-        parent::configureIO($input, $output);
-        $this->kernel->setInput($input);
-        $this->kernel->setOutput($output);
-        $this->kernel->boot($this);
+        $this->kernel->boot($this, $input, $output);
+
+        if (!$this->commandsRegistered) {
+            $this->registerCommands();
+            $this->commandsRegistered = true;
+        }
+
+        $container = $this->kernel->getContainer();
+
+        $this->setDispatcher($container->get('event_dispatcher'));
+
+        return parent::doRun($input, $output);
     }
 
+    /**
+     * @inheritdoc
+     */
     protected function getDefaultCommands()
     {
         return array(
             new ListCommand(),
         );
+    }
+
+    /**
+     * Registers the commands that are displayed to the developer
+     */
+    protected function registerCommands()
+    {
+        $this->add(new \Daedalus\Command\DumpContainerCommand($this->kernel->getContainer()));
+        $this->add(new \Daedalus\Command\HelpCommand($this->kernel->getContainer()));
     }
 }

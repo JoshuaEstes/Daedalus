@@ -18,5 +18,7 @@
         <service id="finder" class="Symfony\Component\Finder\Finder" />
 
         <service id="process_builder" class="Symfony\Component\Process\ProcessBuilder" />
+
+        <service id="task_manager" class="Daedalus\TaskManager" />
     </services>
 </container>

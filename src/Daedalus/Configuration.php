@@ -67,6 +67,7 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     ->scalarNode('command')->isRequired()->end()
                     ->append($this->addArgumentsNode())
+                    ->append($this->addOptionsNode())
                 ->end()
             ->end();
 
@@ -80,6 +81,21 @@ class Configuration implements ConfigurationInterface
     {
         $builder = new TreeBuilder();
         $node    = $builder->root('arguments');
+
+        $node
+            ->prototype('variable')
+            ->end();
+
+        return $node;
+    }
+
+    /**
+     * Options that are passed to a command
+     */
+    protected function addOptionsNode()
+    {
+        $builder = new TreeBuilder();
+        $node    = $builder->root('options');
 
         $node
             ->prototype('variable')
