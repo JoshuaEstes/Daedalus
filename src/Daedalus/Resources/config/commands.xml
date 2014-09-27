@@ -33,7 +33,7 @@
             <tag name="command" />
         </service>
 
-        <service id="command.lint" class="Daedalus\Command\LintCommand">
+        <service id="command.phplint" class="Daedalus\Command\PhpLintCommand">
             <tag name="command" />
         </service>
 

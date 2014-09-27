@@ -8,8 +8,10 @@ daedalus:
         lint:
             description: Lint check all code
             commands:
-                lint_check:
-                    command: lint
+                php_lint_check:
+                    command: phplint
+                    arguments:
+                        source: 'src/'
         checkstyle:
             description: Runs phpcs
             commands:
