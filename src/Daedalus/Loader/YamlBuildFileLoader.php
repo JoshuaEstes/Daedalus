@@ -3,7 +3,7 @@
 namespace Daedalus\Loader;
 
 use Daedalus\Kernel;
-use Daedalus\Configuration;
+use Daedalus\Configuration\TaskConfiguration;
 use Symfony\Component\Config\Definition\Processor;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Console\Command\Command;
@@ -84,7 +84,7 @@ class YamlBuildFileLoader extends FileLoader
 
         $processor = $this->getProcessor();
         $content   = $processor->processConfiguration(
-            new Configuration(),
+            new TaskConfiguration(),
             $content
         );
 

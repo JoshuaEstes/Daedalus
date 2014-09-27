@@ -22,7 +22,7 @@ class PhpunitCommand extends Command
             ->setDescription('')
             ->setDefinition(
                 array(
-                    new InputOption('configuration', null, InputOption::VALUE_REQUIRED, '', 'build/'),
+                    new InputOption('configuration', null, InputOption::VALUE_REQUIRED, '', 'phpunit.xml.dist'),
                 )
             );
     }

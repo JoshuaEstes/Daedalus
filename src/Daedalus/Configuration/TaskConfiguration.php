@@ -1,6 +1,6 @@
 <?php
 
-namespace Daedalus;
+namespace Daedalus\Configuration;
 
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
@@ -8,7 +8,7 @@ use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 /**
  * Configuration of build file
  */
-class Configuration implements ConfigurationInterface
+class TaskConfiguration implements ConfigurationInterface
 {
     /**
      * @inheritdoc
