@@ -138,6 +138,10 @@ class YamlBuildFileLoader extends FileLoader
         $command   = new Command($name);
         $command->setDescription($config['description']);
         $command->setCode(function (InputInterface $input, OutputInterface $output) use ($config, $container) {
+            foreach ($config['requires'] as $task) {
+                $service = $container->get(sprintf('task.'.$task));
+                $service->run($input, $output);
+            }
             foreach ($config['commands'] as $cmd => $cmdConfig) {
                 $output->writeln('Starting '.$cmd);
                 $serviceId = sprintf('command.%s', $cmdConfig['command']);
