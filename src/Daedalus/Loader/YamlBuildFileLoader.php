@@ -11,7 +11,11 @@ use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Loader\FileLoader;
 use Symfony\Component\Yaml\Yaml;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ */
 class YamlBuildFileLoader extends FileLoader
 {
 
@@ -134,7 +138,7 @@ class YamlBuildFileLoader extends FileLoader
         $container = $this->container;
         $command   = new Command($name);
         $command->setDescription($config['description']);
-        $command->setCode(function ($input, $output) use ($config, $container) {
+        $command->setCode(function (InputInterface $input, OutputInterface $output) use ($config, $container) {
             foreach ($config['commands'] as $cmd => $cmdConfig) {
                 $output->writeln('Starting ' . $cmd);
                 $serviceId = sprintf('command.%s', $cmdConfig['command']);
