@@ -17,5 +17,6 @@ Contents:
     tasks/index
     commands/index
     config
+    style
     changelog
     license
