@@ -38,10 +38,6 @@ class PharCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        var_dump(
-            $input->getOptions()
-        );
-
         $finder = $this->createFinder($input->getOption('finder'), $output);
 
         foreach ($finder as $file) {
