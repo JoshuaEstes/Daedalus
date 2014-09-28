@@ -136,6 +136,7 @@ class YamlBuildFileLoader extends FileLoader
     {
         $container = $this->container;
         $command   = new Command($name);
+        $command->setApplication($container->get('application'));
         $command->setDescription($config['description']);
         $command->setCode(function (InputInterface $input, OutputInterface $output) use ($name, $config, $container) {
             $output->writeln(
@@ -163,8 +164,9 @@ class YamlBuildFileLoader extends FileLoader
                     continue;
                 }
 
+                $serviceConfig = array('command' => $cmdConfig['command']);
                 $service       = $container->get($serviceId);
-                $serviceConfig = array();
+                $service->setApplication($container->get('application'));
 
                 foreach ($cmdConfig['arguments'] as $arg => $value) {
                     $serviceConfig[$arg] = $value;

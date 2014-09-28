@@ -32,6 +32,20 @@ class PhpunitCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $formatter = $this->getHelper('formatter');
+        $output->writeln(
+            array(
+                $formatter->formatSection(
+                    'phpunit',
+                    'Starting'
+                ),
+                $formatter->formatSection(
+                    'configuration',
+                    $input->getOption('configuration')
+                ),
+            )
+        );
+
         $process = new Process(
             sprintf(
                 'phpunit -c %s',
@@ -43,6 +57,27 @@ class PhpunitCommand extends Command
             $output->writeln($buffer);
         });
 
-        return $process->isSuccessful();
+        if (!$process->isSuccessful()) {
+            $output->writeln(
+                array(
+                    $formatter->formatSection(
+                        'phpunit',
+                        '<error>FAILED</error>'
+                    ),
+                )
+            );
+            return -1;
+        }
+
+        $output->writeln(
+            array(
+                $formatter->formatSection(
+                    'phpunit',
+                    'SUCCESS'
+                ),
+            )
+        );
+
+        return 0;
     }
 }

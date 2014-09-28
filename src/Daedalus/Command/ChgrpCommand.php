@@ -18,7 +18,7 @@ class ChgrpCommand extends Command
     {
         $this
             ->setName('chgrp')
-            ->setDescription('')
+            ->setDescription('Changes group on file or directory')
             ->setDefinition(
                 array(
                     new InputOption('file', null, InputOption::VALUE_REQUIRED, ''),
@@ -33,11 +33,53 @@ class ChgrpCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->getFilesystem()->chgrp(
-            $input->getOption('file'),
-            $input->getOption('group'),
-            $input->getOption('recursive')
+        $returnCode = 0;
+        $formatter  = $this->getHelper('formatter');
+        $output->writeln(
+            array(
+                $formatter->formatSection(
+                    'chgrp',
+                    'Starting'
+                ),
+                $formatter->formatSection(
+                    'file',
+                    $input->getOption('file')
+                ),
+                $formatter->formatSection(
+                    'group',
+                    $input->getOption('group')
+                ),
+                $formatter->formatSection(
+                    'recursive',
+                    $input->hasOption('recursive') ? 'yes' : 'no'
+                ),
+            )
         );
+
+        try {
+            $this->getFilesystem()->chgrp(
+                $input->getOption('file'),
+                $input->getOption('group'),
+                $input->getOption('recursive')
+            );
+            $output->writeln(
+                $this->getHelper('formatter')->formatSection(
+                    'chgrp',
+                    'SUCCESS'
+                )
+            );
+        } catch (\Exception $e) {
+            $returnCode = -1;
+            $output->writeln(
+                $this->getHelper('formatter')->formatSection(
+                    'chgrp',
+                    'FAILED'
+                )
+            );
+        }
+
+
+        return $returnCode;
     }
 
     /**
