@@ -1,5 +1,6 @@
 /bin/**
 !/bin/daedalus
+/build/dist/
 /build/docs/code-coverage/
 /build/logs/clover.xml
 /docs/_build/

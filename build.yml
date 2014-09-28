@@ -27,19 +27,3 @@ daedalus:
         build:
             description: Creates distribution
             requires: [lint, phpunit, checkstyle]
-            commands:
-                package:
-                    command: phar
-                    options:
-                        output: build/dist/daedalus.phar
-                        compression: none
-                        stub: path/to/stub.php
-                        finder:
-                            name: ['*.php', 'daedalus']
-                            in: ['src/', 'bin/']
-                            exclude: ['tests/', 'vendor/']
-                chmod:
-                    command: chmod
-                    options:
-                        file: bin/daedalus
-                        mode: 0755
