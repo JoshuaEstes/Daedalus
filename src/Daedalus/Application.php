@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Command\ListCommand;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 /**
  */
@@ -40,6 +41,7 @@ class Application extends BaseApplication
     public function doRun(InputInterface $input, OutputInterface $output)
     {
         $this->kernel->boot($this, $input, $output);
+        $this->addOutputFormatterStyles($output);
 
         if (!$this->commandsRegistered) {
             $this->registerCommands();
@@ -58,7 +60,7 @@ class Application extends BaseApplication
             );
         } else {
             $output->writeln(
-                $this->getHelperSet()->get('formatter')->formatSection('build', 'success')
+                $this->getHelperSet()->get('formatter')->formatSection('build', '<success>success</success>')
             );
         }
 
@@ -82,5 +84,28 @@ class Application extends BaseApplication
     {
         $this->add(new \Daedalus\Command\DumpContainerCommand($this->kernel->getContainer()));
         $this->add(new \Daedalus\Command\HelpCommand($this->kernel->getContainer()));
+    }
+
+    /**
+     * Adds extra styles to the output
+     *
+     * @param OutputInterface $output
+     */
+    protected function addOutputFormatterStyles(OutputInterface $output)
+    {
+        foreach ($this->getOutputFormatterStyles() as $name => $style) {
+            $output->getFormatter()->setStyle($name, $style);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    protected function getOutputFormatterStyles()
+    {
+        return array(
+            'success' => new OutputFormatterStyle('white', 'green', array('bold')),
+            'error' => new OutputFormatterStyle('white', 'red', array('bold')),
+        );
     }
 }
