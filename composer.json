@@ -26,9 +26,23 @@
         "bin-dir": "bin"
     },
     "bin": ["bin/daedalus"],
+    "repositories": [
+        {
+            "name": "sebastian/bytekit-cli",
+            "type": "package",
+            "package": {
+                "name": "sebastian/bytekit-cli",
+                "version": "1.0.0",
+                "source": {
+                    "type": "git",
+                    "url": "https://github.com/sebastianbergmann/bytekit-cli.git",
+                    "reference": "master"
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.4",
-        "psr/log": "*",
         "symfony/config": "~2.3",
         "symfony/console": "~2.3",
         "symfony/dependency-injection": "~2.3",
@@ -39,9 +53,25 @@
         "symfony/yaml": "~2.3"
     },
     "require-dev": {
+        "pdepend/pdepend": "*",
+        "sebastian/bytekit-cli": "*",
+        "sebastian/phpcpd": "*",
+        "sebastian/phpdcd": "*",
+        "squizlabs/php_codesniffer": "*",
+        "phploc/phploc": "*",
+        "phpmd/phpmd": "*",
         "mikey179/vfsStream": "*",
         "satooshi/php-coveralls": "*",
         "phpunit/phpunit": "*"
+    },
+    "suggest": {
+        "sebastian/phpcpd": "PHP Copy/Paste Detector",
+        "sebastian/phpdcd": "PHP Dead Code Detector",
+        "squizlabs/php_codesniffer": "CodeSniffer",
+        "phploc/phploc": "PHP Lines of Code",
+        "phpmd/phpmd": "PHP Mess Detector",
+        "mikey179/vfsStream": "Virtual File System",
+        "phpunit/phpunit": "PHPUnit for unit testing"
     },
     "extra": {
         "branch-alias": {
