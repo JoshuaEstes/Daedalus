@@ -24,7 +24,12 @@ class PharCommand extends Command
                     new InputOption('output', null, InputOption::VALUE_REQUIRED, 'Output file'),
                     new InputOption('stub', null, InputOption::VALUE_REQUIRED, 'Path to a stub file'),
                     new InputOption('compression', null, InputOption::VALUE_REQUIRED, 'gz, bz2, none', 'none'),
-                    new InputOption('signature', null, InputOption::VALUE_REQUIRED, 'One of the support signature types'),
+                    new InputOption(
+                        'signature',
+                        null,
+                        InputOption::VALUE_REQUIRED,
+                        'One of the support signature types'
+                    ),
                     new InputOption('key', null, InputOption::VALUE_REQUIRED, 'Path to key'),
                     new InputOption('password', null, InputOption::VALUE_REQUIRED, 'Password for key'),
                     new InputOption('finder', null, InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, ''),
