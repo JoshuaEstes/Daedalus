@@ -34,14 +34,32 @@ class PhpcsCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $code = 0;
-        $source = $input->getArgument('source');
+        $returnCode = 0;
+        $formatter  = $this->getHelper('formatter');
+        $source     = $input->getArgument('source');
+        $output->writeln(
+            array(
+                $formatter->formatSection(
+                    'phpcs',
+                    'Starting'
+                ),
+                $formatter->formatSection(
+                    'report',
+                    $input->getOption('report')
+                ),
+                $formatter->formatSection(
+                    'standard',
+                    $input->getOption('standard')
+                ),
+            )
+        );
 
         if (!is_array($source)) {
             $source = array($source);
         }
 
         foreach ($source as $src) {
+            $output->writeln($formatter->formatSection('source', $src));
             $process = new Process(
                 sprintf(
                     'phpcs --report=%s --standard=%s %s',
@@ -54,10 +72,18 @@ class PhpcsCommand extends Command
                 $output->writeln($buffer);
             });
             if (!$process->isSuccessful()) {
-                $code = 1;
+                $returnCode = 1;
             }
         }
 
-        return $code;
+        if (0 !== $returnCode) {
+            $output->writeln($formatter->formatSection('phpcs', '<error>failed</error>'));
+
+            return $returnCode;
+        }
+
+        $output->writeln($formatter->formatSection('phpcs', '<success>success</success>'));
+
+        return $returnCode;
     }
 }
