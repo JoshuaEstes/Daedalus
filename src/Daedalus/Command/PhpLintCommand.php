@@ -32,31 +32,46 @@ class PhpLintCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $source = $input->getArgument('source');
+        $returnCode = 0;
+        $formatter  = $this->getHelper('formatter');
+        $source     = $input->getArgument('source');
         if (!is_array($source)) {
             $source = array($source);
         }
+        $output->writeln(
+            $formatter->formatSection('phplint', 'Starting')
+        );
 
-        $finder = new Finder();
-        $finder
-            ->files()
-            ->name('*.php');
-
+        $finder = $this->getFinder();
         foreach ($source as $src) {
             $finder->in($src);
+            $output->writeln(
+                $formatter->formatSection('source', $src)
+            );
         }
 
         foreach ($finder as $file) {
             if ($this->lintFile($file)) {
                 $output->writeln(
-                    sprintf('OK "%s"', $file)
+                    $formatter->formatSection('success', $file)
                 );
                 continue;
             }
             $output->writeln(
-                sprintf('NOT OK "%s"', $file)
+                $formatter->formatSection('<error>FAIL</error>', $file)
             );
+            $returnCode = -1;
         }
+
+        return 0;
+    }
+
+    protected function getFinder()
+    {
+        $finder = new Finder();
+        $finder->files()->name('*.php');
+
+        return $finder;
     }
 
     protected function lintFile($file)

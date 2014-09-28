@@ -131,6 +131,7 @@ class YamlBuildFileLoader extends FileLoader
     }
 
     /**
+     * This entire thing needs to be refactored
      */
     protected function buildTask($name, $config)
     {
@@ -139,13 +140,14 @@ class YamlBuildFileLoader extends FileLoader
         $command->setApplication($container->get('application'));
         $command->setDescription($config['description']);
         $command->setCode(function (InputInterface $input, OutputInterface $output) use ($name, $config, $container) {
+            $formatter = $container->get('application')->getHelperSet()->get('formatter');
             $output->writeln(
-                sprintf('<info>Running "<comment>%s</comment>" task</info>', $name)
+                $formatter->formatBlock(array(sprintf('Running Task "%s"', $name)), 'info')
             );
             $successful = 0;
             foreach ($config['requires'] as $task) {
                 $output->writeln(
-                    sprintf('<info>Running the required task "<comment>%s</comment>"</info>', $task)
+                    $formatter->formatBlock(array(sprintf('Running Required Task "%s"', $task)), 'info')
                 );
                 $service = $container->get(sprintf('task.'.$task));
                 $code = $service->run($input, $output);
@@ -156,11 +158,14 @@ class YamlBuildFileLoader extends FileLoader
 
             foreach ($config['commands'] as $cmd => $cmdConfig) {
                 $output->writeln(
-                    sprintf('<info>Starting "<comment>%s</comment>" command.</info>', $cmd)
+                    $formatter->formatBlock(array(sprintf('Running Command "%s"', $cmd)), 'info')
                 );
                 $serviceId = sprintf('command.%s', $cmdConfig['command']);
                 if (!$container->has($serviceId)) {
-                    $output->writeln('Command not found');
+                    $output->writeln(
+                        $formatter->formatSection('<error>ERROR</error>', sprintf('Command "%s" does not exist', $cmdConfig['command']))
+                    );
+                    $successful = -1;
                     continue;
                 }
 
@@ -176,18 +181,18 @@ class YamlBuildFileLoader extends FileLoader
                     $serviceConfig['--'.$opt] = $value;
                 }
 
-                $output->writeln('Running Command '.$service->getName());
                 $code = $service->run(new ArrayInput($serviceConfig), $output);
-                $output->writeln('Command '.$service->getName().' Complete');
 
                 if (0 !== $code) {
                     $successful = -1;
-                    $output->writeln('<error>Command FAIL</error>');
+                    $output->writeln(
+                        $formatter->formatBlock(array(sprintf('Command "%s" failure', $cmd)), 'error')
+                    );
+                } else {
+                    $output->writeln(
+                        $formatter->formatBlock(array(sprintf('Command "%s" success', $cmd)), 'info')
+                    );
                 }
-            }
-
-            if (-1 === $successful) {
-                $output->writeln('<error>Build FAILED</error>');
             }
 
             return $successful;

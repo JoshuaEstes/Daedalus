@@ -50,7 +50,19 @@ class Application extends BaseApplication
 
         $this->setDispatcher($container->get('event_dispatcher'));
 
-        return parent::doRun($input, $output);
+        $returnCode = parent::doRun($input, $output);
+
+        if (0 !== $returnCode) {
+            $output->writeln(
+                $this->getHelperSet()->get('formatter')->formatSection('build', '<error>failure</error>')
+            );
+        } else {
+            $output->writeln(
+                $this->getHelperSet()->get('formatter')->formatSection('build', 'success')
+            );
+        }
+
+        return $returnCode;
     }
 
     /**
