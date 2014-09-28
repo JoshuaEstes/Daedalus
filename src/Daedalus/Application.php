@@ -54,11 +54,11 @@ class Application extends BaseApplication
 
         $returnCode = parent::doRun($input, $output);
 
-        if (0 !== $returnCode) {
+        if (0 !== $returnCode && $this->getCommandName($input)) {
             $output->writeln(
                 $this->getHelperSet()->get('formatter')->formatSection('build', '<error>failure</error>')
             );
-        } else {
+        } elseif ($this->getCommandName($input)) {
             $output->writeln(
                 $this->getHelperSet()->get('formatter')->formatSection('build', '<success>success</success>')
             );
