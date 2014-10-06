@@ -16,7 +16,7 @@
         "wiki": "http://daedalus.readthedocs.org/",
         "source": "https://github.com/JoshuaEstes/Daedalus"
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
             "": "src/"
