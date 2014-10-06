@@ -59,8 +59,8 @@ class TaskConfiguration implements ConfigurationInterface
         $node    = $builder->root('commands');
 
         $node
-            ->isRequired()
-            ->requiresAtLeastOneElement()
+            //->isRequired()
+            //->requiresAtLeastOneElement()
             ->useAttributeAsKey('name')
             ->prototype('array')
                 ->children()

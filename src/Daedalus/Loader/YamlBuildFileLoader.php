@@ -163,7 +163,10 @@ class YamlBuildFileLoader extends FileLoader
                 $serviceId = sprintf('command.%s', $cmdConfig['command']);
                 if (!$container->has($serviceId)) {
                     $output->writeln(
-                        $formatter->formatSection('<error>ERROR</error>', sprintf('Command "%s" does not exist', $cmdConfig['command']))
+                        $formatter->formatSection(
+                            '<error>ERROR</error>',
+                            sprintf('Command "%s" does not exist', $cmdConfig['command'])
+                        )
                     );
                     $successful = -1;
                     continue;
