@@ -8,7 +8,6 @@ use Daedalus\Helper\FormatterHelper;
 use Symfony\Component\Console\Application as BaseApplication;
 use Symfony\Component\Console\Command\ListCommand;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
-use Symfony\Component\Console\Helper\DebugFormatterHelper;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressHelper;
@@ -97,7 +96,6 @@ class Application extends BaseApplication
             new DialogHelper(),
             new ProgressHelper(),
             new TableHelper(),
-            new DebugFormatterHelper(),
             new ProcessHelper(),
             new QuestionHelper(),
         ));
