@@ -11,7 +11,6 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\ProgressHelper;
-use Symfony\Component\Console\Helper\ProcessHelper;
 use Symfony\Component\Console\Helper\QuestionHelper;
 use Symfony\Component\Console\Helper\TableHelper;
 use Symfony\Component\Console\Input\InputOption;
@@ -96,7 +95,6 @@ class Application extends BaseApplication
             new DialogHelper(),
             new ProgressHelper(),
             new TableHelper(),
-            new ProcessHelper(),
             new QuestionHelper(),
         ));
     }
