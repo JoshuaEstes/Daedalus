@@ -27,3 +27,6 @@ Commands are ran inside of a task.
     rename
     symlink
     touch
+
+HOWTO Create a New Command
+==========================
