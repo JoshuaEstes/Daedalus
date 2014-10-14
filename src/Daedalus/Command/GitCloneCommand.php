@@ -32,15 +32,26 @@ class GitCloneCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $formatter = $this->getHelper('formatter');
+        $output->writeln(
+            $formatter->formatBlock('gitclone Command', 'info', true)
+        );
+
         $process = new Process(
             sprintf('git clone %s %s', $input->getArgument('src'), $input->getArgument('dest'))
         );
-        $process->run();
+        $process->run(function ($type, $buffer) use ($output, $formatter) {
+            $style = 'info';
+            if (Process::ERR === $type) {
+                $style = 'error';
+            }
+            $output->write(sprintf('<%s>%s</%s', $style, $buffer, $style));
+        });
 
         if ($process->isSuccessful()) {
             return 0;
         }
 
-        return 1;
+        return -1;
     }
 }
