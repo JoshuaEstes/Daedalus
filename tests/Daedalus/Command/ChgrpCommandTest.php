@@ -17,9 +17,9 @@ class ChgrpCommandTest extends \PHPUnit_Framework_TestCase
     public function testExecute()
     {
         $this->application->add(new ChgrpCommand());
-        $command = $this->application->find('chgrp');
+        $command       = $this->application->find('chgrp');
         $commandTester = new CommandTester($command);
-        $commandTester->execute(
+        $exitCode      = $commandTester->execute(
             array(
                 'command'   => $command->getName(),
                 '--file'      => vfsStream::url('test'),
@@ -27,5 +27,22 @@ class ChgrpCommandTest extends \PHPUnit_Framework_TestCase
                 '--recursive' => true,
             )
         );
+        $this->assertSame(0, $exitCode);
+    }
+
+    public function testExecuteFail()
+    {
+        $this->application->add(new ChgrpCommand());
+        $command       = $this->application->find('chgrp');
+        $commandTester = new CommandTester($command);
+        $exitCode      = $commandTester->execute(
+            array(
+                'command'   => $command->getName(),
+                '--file'      => vfsStream::url('other'),
+                '--group'     => vfsStream::GROUP_ROOT,
+                '--recursive' => true,
+            )
+        );
+        $this->assertSame(-1, $exitCode);
     }
 }
