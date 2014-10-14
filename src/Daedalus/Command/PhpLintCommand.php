@@ -39,7 +39,7 @@ class PhpLintCommand extends Command
             $source = array($source);
         }
         $output->writeln(
-            $formatter->formatSection('phplint', 'Starting')
+            $formatter->formatBlock('phplint Command', 'info', true)
         );
 
         $finder = $this->getFinder();
