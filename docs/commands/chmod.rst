@@ -17,6 +17,10 @@ mode
 
 Mode which you want to set.
 
+.. warning::
+
+    This MUST be in octal format, 755 and 0755 will yeild different results.
+
 Example Usage
 -------------
 

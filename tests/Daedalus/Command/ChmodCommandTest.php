@@ -22,8 +22,8 @@ class ChmodCommandTest extends \PHPUnit_Framework_TestCase
         $commandTester->execute(
             array(
                 'command' => $command->getName(),
-                '--mode'  => 0755,
-                '--file'  => vfsStream::url('test'),
+                'mode'    => 0755,
+                'file'    => vfsStream::url('test'),
             )
         );
     }

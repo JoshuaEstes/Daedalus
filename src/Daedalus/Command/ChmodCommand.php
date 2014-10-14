@@ -6,6 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
@@ -22,11 +23,11 @@ class ChmodCommand extends Command
             ->setDescription('chmod a file or folder')
             ->setDefinition(
                 array(
-                    new InputOption('mode', null, InputOption::VALUE_REQUIRED, 'octal mode'),
-                    new InputOption(
+                    new InputArgument('mode', null, InputArgument::REQUIRED, 'octal mode'),
+                    new InputArgument(
                         'file',
                         null,
-                        InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED,
+                        InputArgument::IS_ARRAY | InputArgument::REQUIRED,
                         'Files and/or Directories'
                     ),
                 )
@@ -57,8 +58,8 @@ HELP
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $mode  = $input->getOption('mode');
-        $files = $input->getOption('file');
+        $mode  = $input->getArgument('mode');
+        $files = $input->getArgument('file');
         $fs    = $this->getFilesystem();
         if (!is_array($files)) {
             $files = array($files);
