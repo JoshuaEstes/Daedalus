@@ -10,6 +10,7 @@ Basic Example
 
 .. code-block:: yaml
 
+    # build.yml
     daedalus:
         tasks:
             <taskname>:
@@ -41,6 +42,7 @@ Complete Basic Example
 
 .. code-block:: yaml
 
+    # build.yml
     daedalus:
         tasks:
             chmod:
