@@ -6,9 +6,12 @@ This guide SHOULD provide a guide on how to display output for commands that
 run for a build and what type of return codes SHOULD be returned for success
 or failure.
 
-Colors
+Output
 ======
 
+
+Colors
+======
 
 
 Return Codes

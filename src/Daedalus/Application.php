@@ -1,13 +1,21 @@
 <?php
+/**
+ */
 
 namespace Daedalus;
 
+use Daedalus\Helper\FormatterHelper;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Console\Command\ListCommand;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Helper\ProgressHelper;
+use Symfony\Component\Console\Helper\QuestionHelper;
+use Symfony\Component\Console\Helper\TableHelper;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Command\ListCommand;
-use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 
 /**
  */
@@ -78,6 +86,20 @@ class Application extends BaseApplication
     }
 
     /**
+     * @inheritdoc
+     */
+    protected function getDefaultHelperSet()
+    {
+        return new HelperSet(array(
+            new FormatterHelper(),
+            new DialogHelper(),
+            new ProgressHelper(),
+            new TableHelper(),
+            new QuestionHelper(),
+        ));
+    }
+
+    /**
      * Registers the commands that are displayed to the developer
      */
     protected function registerCommands()
@@ -105,7 +127,7 @@ class Application extends BaseApplication
     {
         return array(
             'success' => new OutputFormatterStyle('white', 'green', array('bold')),
-            'error' => new OutputFormatterStyle('white', 'red', array('bold')),
+            'error'   => new OutputFormatterStyle('white', 'red', array('bold')),
         );
     }
 }

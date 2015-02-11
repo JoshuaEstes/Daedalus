@@ -1,7 +1,18 @@
 #!/usr/bin/env php
 <?php
 // vim: set ft=php
-require_once __DIR__ . '/../vendor/autoload.php';
+$autoload = array(
+    __DIR__ . '/../vendor/autoload.php',
+    __DIR__ . '/../../../autoload.php'
+);
+
+foreach ($autoload as $path) {
+    if (is_file($path)) {
+        require_once $path;
+        break;
+    }
+}
+
 use Daedalus\Application;
 use Daedalus\Kernel;
 

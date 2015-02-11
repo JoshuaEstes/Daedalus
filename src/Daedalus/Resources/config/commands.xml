@@ -31,6 +31,10 @@
             <tag name="command" />
         </service>
 
+        <service id="command.gitclone" class="Daedalus\Command\GitCloneCommand">
+            <tag name="command" />
+        </service>
+
         <service id="command.help" class="Daedalus\Command\HelpCommand">
             <argument type="service" id="service_container" />
             <tag name="command" />
